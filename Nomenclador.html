@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nomenclador Jurisdiccional - Don Bosco</title>
+    <style>
+        :root {
+            --azul-policial: #1a3a5a;
+            --azul-claro: #34495e;
+            --gris-claro: #f8f9fa;
+            --verde-descarga: #27ae60;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #e9ecef; 
+            margin: 0; 
+            padding: 20px; 
+        }
+
+        .container { 
+            max-width: 1100px; 
+            margin: auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 3px solid var(--azul-policial);
+            padding-bottom: 10px;
+            margin-bottom: 5px;
+        }
+
+        h2 { 
+            color: var(--azul-policial); 
+            margin: 0;
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+
+        .btn-download {
+            background-color: var(--verde-descarga);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .btn-download:hover {
+            background-color: #219150;
+            transform: translateY(-2px);
+        }
+
+        .author-tag { 
+            font-size: 12px; 
+            color: #666; 
+            font-style: italic; 
+            margin-bottom: 20px; 
+            display: block; 
+        }
+
+        .search-box { 
+            width: 100%; 
+            padding: 15px; 
+            margin: 20px 0 5px 0;
+            border: 2px solid #ddd; 
+            border-radius: 8px; 
+            font-size: 18px; 
+            box-sizing: border-box; 
+            outline-color: var(--azul-policial);
+        }
+
+        .instruccion {
+            display: block;
+            text-align: center;
+            font-size: 14px;
+            color: var(--azul-claro);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .table-wrapper {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            background: white;
+        }
+
+        th { 
+            background: var(--azul-policial); 
+            color: white; 
+            padding: 15px 10px; 
+            text-align: center; 
+            text-transform: uppercase; 
+            font-size: 13px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td { 
+            padding: 12px; 
+            border-bottom: 1px solid #dee2e6; 
+            text-align: center; 
+            cursor: pointer;
+        }
+
+        tr:hover td { background: #f1f4f7; }
+
+        td:first-child { 
+            text-align: left; 
+            font-weight: bold;
+            padding-left: 15px;
+        }
+
+        tr:nth-child(even) { background: var(--gris-claro); }
+
+        .tag-zona { 
+            display: inline-block; 
+            padding: 5px 12px; 
+            border-radius: 4px; 
+            font-size: 11px; 
+            font-weight: bold; 
+            color: white; 
+            background: var(--azul-policial);
+            white-space: nowrap;
+        }
+
+        .map-section {
+            margin-top: 30px;
+            border: 4px solid var(--azul-policial);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            display: block;
+        }
+
+        .leyenda-container {
+            background: white;
+            padding: 20px;
+            border-top: 2px solid #ddd;
+        }
+
+        .leyenda-titulo {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--azul-policial);
+            text-align: center;
+        }
+
+        .leyenda-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .leyenda-item {
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 10px;
+            background: var(--gris-claro);
+            border-left: 4px solid var(--azul-policial);
+            border-radius: 4px;
+        }
+
+        .leyenda-item strong { color: var(--azul-policial); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-flex">
+        <h2>Nomenclador - Comisaría Norte 8va. Don Bosco</h2>
+        <a id="downloadPDF" class="btn-download" href="https://drive.google.com/uc?export=download&id=1G71uogoFE6boorXlvMoWBKSQkKwGjj4x" target="_blank">
+            <span>📥</span> Descargar PDF
+        </a>
+    </div>
+    <span class="author-tag">by Mario Maiolo</span>
+    
+    <input type="text" id="busqueda" class="search-box" placeholder="🔎 Filtrar calle..." autofocus>
+    <span class="instruccion">📍 Pulse una calle para centrar en el mapa</span>
+    
+    <div class="table-wrapper">
+        <table id="tablaCalles">
+            <thead>
+                <tr>
+                    <th>Calle</th>
+                    <th>Alturas</th>
+                    <th>Mano</th>
+                    <th>Zona</th>
+                    <th>Notas</th>
+                </tr>
+            </thead>
+            <tbody id="lista"></tbody>
+        </table>
+    </div>
+
+    <div class="map-section">
+        <iframe id="mapaIframe" src="about:blank"></iframe>
+        
+        <div class="leyenda-container">
+            <div class="leyenda-titulo">Límites Jurisdiccionales de Zonas</div>
+            <div class="leyenda-grid">
+                <div class="leyenda-item">
+                    <strong>ZONA 8:</strong><br>
+                    Mosconi, Brandsen, Humboldt, Pringles, Pepirí y Arriola.
+                </div>
+                <div class="leyenda-item">
+                    <strong>ZONA 9:</strong><br>
+                    Cisneros, Arriola, Pepirí, Pringles, Humboldt y Gral. San Martín.
+                </div>
+                <div class="leyenda-item">
+                    <strong>ZONA 11:</strong><br>
+                    Cisneros, Gral. San Martín, Mosconi y Arriola.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const baseDeDatos = [
+        { nombre: "Alvear", desde: 2100, hasta: 2900, mano: "Única (hacia Mirador)", zona: 8, notas: "" },
+        { nombre: "José Nicolas de Arriola", desde: 1850, hasta: 2700, mano: "Única (hacia Ramos)", zona: 8, notas: "Límite con zona 11" },
+        { nombre: "Av. de Mayo", desde: 1900, hasta: 2000, mano: "Doble", zona: 8, notas: "(Pares) Esc. Don Bosco" },
+        { nombre: "Albariños", desde: 2100, hasta: 2700, mano: "Única (hacia Mirador)", zona: 8, notas: "" },
+        { nombre: "Av. Gral. Enrique Mosconi", desde: 1100, hasta: 1600, mano: "Doble", zona: 8, notas: "(Impares) Límite Cría. 4ta Mirador" },
+        { nombre: "Av. Gral. Enrique Mosconi", desde: 1600, hasta: 2200, mano: "Doble", zona: 11, notas: "(Impares) Límite Cría. 4ta Mirador" },
+        { nombre: "Av. Pedro Palacios", desde: 0, hasta: 300, mano: "Doble", zona: 9, notas: "Predio deportivo Ateneo" },
+        { nombre: "Av. Pedro Palacios", desde: 400, hasta: 1500, mano: "Doble", zona: 8, notas: "" },
+        { nombre: "Av. Gral. San Martin", desde: 1200, hasta: 1600, mano: "Doble", zona: 9, notas: "(Impares) Límite Cría. 9na Millon" },
+        { nombre: "Av. Gral. San Martin", desde: 1600, hasta: 2800, mano: "Doble", zona: 8, notas: "(Impares) Límite Cría. 9na Millon" },
+        { nombre: "Avellaneda", desde: 2100, hasta: 2900, mano: "Única (hacia Ramos)", zona: 8, notas: "" },
+        { nombre: "Atuel", desde: 0, hasta: 300, mano: "Única (hacia Mirador)", zona: 8, notas: "" },
+        { nombre: "Aconcagua", desde: 0, hasta: 200, mano: "Única (hacia Mirador)", zona: 8, notas: "Cría 8va Don Bosco" },
+        { nombre: "Manuel Artigas", desde: 0, hasta: 500, mano: "Única (hacia Millón)", zona: 11, notas: "" },
+        { nombre: "Manuel Artigas", desde: 500, hasta: 1200, mano: "Única (hacia Millón)", zona: 8, notas: "" },
+        { nombre: "Felipe de Arana", desde: 500, hasta: 1100, mano: "Doble", zona: 8, notas: "Soc. Fomento / EES 126" },
+        { nombre: "Bolívar", desde: 1600, hasta: 1900, mano: "Única (hacia Mirador)", zona: 9, notas: "Polideportivo Ateneo" },
+        { nombre: "Bolívar", desde: 1900, hasta: 2700, mano: "Única (hacia Mirador)", zona: 11, notas: "" },
+        { nombre: "Cnel. Brandsen", desde: 1700, hasta: 2900, mano: "Doble", zona: 8, notas: "(Pares) Límite Cría. 1ra San Justo" },
+        { nombre: "Colombia", desde: 0, hasta: 600, mano: "Única (hacia Millón)", zona: 9, notas: "" },
+        { nombre: "Colombia", desde: 600, hasta: 960, mano: "Única (hacia Millón)", zona: 8, notas: "" },
+        { nombre: "Colombia", desde: 1000, hasta: 1200, mano: "Única (hacia San Justo)", zona: 8, notas: "" },
+        { nombre: "Cotagaita", desde: 2000, hasta: 2700, mano: "Doble", zona: 8, notas: "" },
+        { nombre: "Virrey Cisneros", desde: 0, hasta: 600, mano: "Única (hacia Millón)", zona: "9/11", notas: "" },
+        { nombre: "Virrey Cisneros", desde: 900, hasta: 1200, mano: "Única (hacia San Justo)", zona: 8, notas: "Casa de Retiro" },
+        { nombre: "Caupolicán", desde: 0, hasta: 100, mano: "Doble", zona: 9, notas: "" },
+        { nombre: "Caupolicán", desde: 300, hasta: 800, mano: "Única (hacia Millón)", zona: 8, notas: "" },
+        { nombre: "Cerrito", desde: 1300, hasta: 1500, mano: "Única (hacia Mirador)", zona: 9, notas: "" },
+        { nombre: "Cerrito", desde: 1600, hasta: 2800, mano: "Única (hacia Mirador)", zona: 11, notas: "" },
+        { nombre: "Candelaria", desde: 0, hasta: 200, mano: "Única (hacia Ramos Mejía)", zona: 8, notas: "" },
+        { nombre: "Valentín Cardoso", desde: 1300, hasta: 1500, mano: "Única (hacia Ramos Mejía)", zona: 9, notas: "" },
+        { nombre: "Valentín Cardoso", desde: 1600, hasta: 2400, mano: "Única (hacia Ramos Mejía)", zona: 11, notas: "" }, 
+        { nombre: "Dardo Rocha", desde: 600, hasta: 700, mano: "Única (hacia Millón)", zona: 8, notas: "" }, 
+        { nombre: "Dardo Rocha", desde: 0, hasta: 500, mano: "Única (hacia Millón)", zona: 11, notas: "" }, 
+        { nombre: "Formosa", desde: 1800, hasta: 2700, mano: "Doble", zona: 8, notas: "" }, 
+        { nombre: "Humboldt", desde: 0, hasta: 400, mano: "Doble", zona: 9, notas: "(Pares) Límite Cría. 2da Ramos" }, 
+        { nombre: "Humboldt", desde: 500, hasta: 1000, mano: "Doble", zona: 8, notas: "(Pares) Límite Cría. 2da Ramos" }, 
+        { nombre: "José Martí", desde: 2000, hasta: 2700, mano: "Única (hacia Ramos Mejía)", zona: 8, notas: "" },
+        { nombre: "José Mármol", desde: 0, hasta: 500, mano: "Única (hacia San Justo)", zona: 11, notas: "" },
+        { nombre: "José Mármol", desde: 600, hasta: 1200, mano: "Única (hacia San Justo)", zona: 8, notas: "" },
+        { nombre: "Malabia", desde: 0, hasta: 500, mano: "Única (hacia San Justo)", zona: 11, notas: "" },
+        { nombre: "Malabia", desde: 600, hasta: 900, mano: "Única (hacia San Justo)", zona: 8, notas: "" },
+        { nombre: "Mariano Moreno", desde: 1600, hasta: 1800, mano: "Única (hacia Millón)", zona: 9, notas: "" },
+        { nombre: "Mariano Moreno", desde: 1700, hasta: 2800, mano: "Única (hacia Millón)", zona: 11, notas: "" },
+        { nombre: "Necochea", desde: 2000, hasta: 2200, mano: "Única (hacia Millón)", zona: 8, notas: "" },
+        { nombre: "Olaya", desde: 1900, hasta: 2600, mano: "Única (hacia Ramos Mejía)", zona: 8, notas: "" },
+        { nombre: "Domingo Olivera", desde: 600, hasta: 900, mano: "Única (hacia Millón)", zona: 8, notas: "" },
+        { nombre: "J. L. Pereyra", desde: 0, hasta: 500, mano: "Doble", zona: 9, notas: "" },
+        { nombre: "J. L. Pereyra", desde: 500, hasta: 600, mano: "Única (hacia San Justo)", zona: 9, notas: "" },
+        { nombre: "J. L. Pereyra", desde: 700, hasta: 1200, mano: "Única (hacia San Justo)", zona: 8, notas: "" },
+        { nombre: "Pringles", desde: 1700, hasta: 1900, mano: "Única (hacia Ramos Mejía)", zona: 8, notas: "" },
+        { nombre: "Pringles", desde: 2200, hasta: 2700, mano: "Única (hacia Mirador)", zona: 8, notas: "" },
+        { nombre: "Pirovano", desde: 300, hasta: 800, mano: "Doble", zona: 8, notas: "" },
+        { nombre: "Cnel. Pizarro", desde: 600, hasta: 800, mano: "Doble", zona: 8, notas: "" },
+        { nombre: "Páez", desde: 800, hasta: 1200, mano: "Única (hacia Millón)", zona: 8, notas: "" },
+        { nombre: "Pepiri", desde: 0, hasta: 200, mano: "Única (hacia Ramos Mejía)", zona: 8, notas: "" },
+        { nombre: "Salta", desde: 0, hasta: 500, mano: "Única (hacia San Justo)", zona: 11, notas: "" },
+        { nombre: "Salta", desde: 600, hasta: 800, mano: "Única (hacia San Justo)", zona: 8, notas: "" },
+        { nombre: "Temple", desde: 1700, hasta: 1900, mano: "Única (hacia Ramos Mejía)", zona: 9, notas: "" },
+        { nombre: "Temple", desde: 2000, hasta: 2800, mano: "Única (hacia Ramos Mejía)", zona: 11, notas: "" },
+        { nombre: "Florencio Varela", desde: 0, hasta: 400, mano: "Única (hacia Millón)", zona: 11, notas: "" },
+        { nombre: "Florencio Varela", desde: 500, hasta: 1200, mano: "Única (hacia Millón)", zona: 8, notas: "" },
+        { nombre: "Venezuela", desde: 300, hasta: 800, mano: "Doble", zona: 8, notas: "" },
+        { nombre: "Tomas Justo Villegas", desde: 0, hasta: 400, mano: "Doble", zona: 11, notas: "" },
+        { nombre: "Tomas Justo Villegas", desde: 500, hasta: 1100, mano: "Doble", zona: 8, notas: "" },
+    ];
+
+    const input = document.getElementById('busqueda');
+    const lista = document.getElementById('lista');
+    const mapaIframe = document.getElementById('mapaIframe');
+
+    function actualizarMapa(calle, altura) {
+        const direccion = `${calle} ${altura}, B1704 Ramos Mejía, La Matanza, Buenos Aires`;
+        const url = `https://www.google.com/maps?q=${encodeURIComponent(direccion)}&output=embed`;
+        mapaIframe.src = url;
+    }
+
+    function renderizar(filtro = "") {
+        lista.innerHTML = "";
+        const filtradas = baseDeDatos.filter(c => 
+            c.nombre.toLowerCase().includes(filtro.toLowerCase())
+        );
+
+        filtradas.forEach(c => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td>${c.nombre}</td>
+                <td>${c.desde} - ${c.hasta}</td>
+                <td>${c.mano}</td>
+                <td><span class="tag-zona">Zona ${c.zona}</span></td>
+                <td><small>${c.notas || '-'}</small></td>
+            `;
+            fila.onclick = () => actualizarMapa(c.nombre, c.desde);
+            lista.appendChild(fila);
+        });
+    }
+
+    window.onload = () => {
+        const inicial = "Av. San Martin y Av. Mosconi, Ramos Mejía, La Matanza";
+        mapaIframe.src = `https://www.google.com/maps?q=${encodeURIComponent(inicial)}&output=embed`;
+        renderizar();
+    };
+
+    input.addEventListener('input', () => renderizar(input.value));
+</script>
+
+</body>
+</html>
