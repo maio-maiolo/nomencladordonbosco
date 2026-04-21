@@ -476,7 +476,7 @@
         );
 
         if (resultados.length === 0) {
-            mensaje.innerHTML = "❌ Calle no encontrada.";
+            mensaje.innerHTML = "❌ CALLE NO ENCONTRADA.";
             mensaje.className = "status-error";
             mensaje.style.display = "block";
             tablaWrapper.style.display = "none";
@@ -502,12 +502,12 @@
             if (tramoManual) {
                 validarAlturaEspecifica(tramoManual);
             } else {
-                mensaje.innerHTML = "🔍 Calle encontrada, pero la altura fuera de rango. Toque en lista para verificar.";
+                mensaje.innerHTML = "🔍 CALLE ENCONTRADA, ALTURA FUERA DE RANGO. TOQUE LA LISTA PARA VERIFICAR.";
                 mensaje.className = "status-fuera";
                 mensaje.style.display = "block";
             }
         } else {
-            mensaje.innerHTML = "💡 Se encontraron " + resultados.length + " tramos. Toque uno para ver detalles.";
+            mensaje.innerHTML = "💡 SE ENCONTRARON " + resultados.length + " TRAMOS. TOQUE UNO PARA VERIFICAR.";
             mensaje.className = "status-ok";
             mensaje.style.display = "block";
         }
@@ -519,7 +519,7 @@
         const mensaje = document.getElementById('mensaje-resultado');
         
         if (isNaN(alturaNum)) {
-            mensaje.innerHTML = `📍 Seleccionado: ${calleSeleccionada.nombre}. <br> Ingrese una altura para verificar la zona exacta.`;
+            mensaje.innerHTML = `📍 SELECCIONADO: ${calleSeleccionada.nombre}. <br> INGRESE ALTURA PARA VERIFICAR ZONA EXACTA.`;
             mensaje.className = "status-ok";
             mensaje.style.display = "block";
             actualizarMapa(calleSeleccionada.nombre, calleSeleccionada.desde);
@@ -536,7 +536,7 @@
             const esPar = (alturaNum % 2 === 0);
             if (tramoCorrecto.limite) {
                 if ((tramoCorrecto.limite === "par" && !esPar) || (tramoCorrecto.limite === "impar" && esPar)) {
-                    mensaje.innerHTML = `⚠️ ALTURA EN RANGO PERO VEREDA OPUESTA. <br> ${tramoCorrecto.observacion || 'Jurisdicción colindante'}`;
+                    mensaje.innerHTML = `⚠️ ALTURA EN RANGO PERO VEREDA OPUESTA. <br> ${tramoCorrecto.observacion || 'JURISDICCION VECINA'}`;
                     mensaje.className = "status-fuera";
                 } else {
                     mensaje.innerHTML = `✅ JURISDICCIÓN CORRECTA. <br> COMISARÍA NORTE 8VA DON BOSCO - Zona ${tramoCorrecto.zona}`;
@@ -548,9 +548,9 @@
             }
         } else {
             if (alturaNum < calleSeleccionada.desde) {
-                mensaje.innerHTML = `❌ FUERA DE JURISDICCIÓN. <br> Corresponde a: ${calleSeleccionada.bajo}`;
+                mensaje.innerHTML = `❌ FUERA DE JURISDICCIÓN. <br> CORRESPONDE A: ${calleSeleccionada.bajo}`;
             } else {
-                mensaje.innerHTML = `❌ FUERA DE JURISDICCIÓN. <br> Corresponde a: ${calleSeleccionada.alto}`;
+                mensaje.innerHTML = `❌ FUERA DE JURISDICCIÓN. <br> CORRESPONDE A: ${calleSeleccionada.alto}`;
             }
             mensaje.className = "status-fuera";
         }
