@@ -7,384 +7,560 @@
     <style>
         :root {
             --azul-policial: #1a3a5a;
-            --azul-claro: #34495e;
+            --azul-oscuro: #0d1f33;
             --gris-claro: #f8f9fa;
-            --verde-descarga: #27ae60;
+            --gris-fondo-ref: #f1f3f5;
+            --rojo-error: #e74c3c;
+            --verde-policial: #A6EDC5;
         }
         
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: #e9ecef; 
-            margin: 0; 
-            padding: 10px; /* Reducido para móviles */
-        }
-
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #e9ecef; margin: 0; padding: 10px; }
+        
         .container { 
-            max-width: 1100px; 
+            max-width: 1000px; 
             margin: auto; 
             background: white; 
-            padding: 15px; 
             border-radius: 12px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-        }
-
-        /* HEADER RESPONSIVE */
-        .header-flex {
-            display: flex;
-            flex-direction: column; /* Por defecto vertical en móvil */
-            gap: 15px;
-            border-bottom: 3px solid var(--azul-policial);
-            padding-bottom: 15px;
-            margin-bottom: 5px;
-            align-items: center;
-            text-align: center;
-        }
-
-        @media (min-width: 768px) {
-            .header-flex {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: flex-start;
-                text-align: left;
-            }
-            .container { padding: 25px; }
-            body { padding: 20px; }
-        }
-
-        h2 { 
-            color: var(--azul-policial); 
-            margin: 0;
-            text-transform: uppercase;
-            font-size: 18px;
-        }
-
-        .btn-download {
-            background-color: var(--verde-descarga);
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s, background 0.3s;
-            width: fit-content;
-        }
-
-        .author-tag { 
-            font-size: 11px; 
-            color: #666; 
-            font-style: italic; 
-            margin: 10px 0 20px 0; 
-            display: block; 
-            text-align: center;
-        }
-
-        @media (min-width: 768px) {
-            .author-tag { text-align: left; }
-        }
-
-        .search-box { 
-            width: 100%; 
-            padding: 15px; 
-            margin: 10px 0;
-            border: 2px solid #ddd; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            box-sizing: border-box; 
-            outline-color: var(--azul-policial);
-        }
-
-        .instruccion {
-            display: block;
-            text-align: center;
-            font-size: 13px;
-            color: var(--azul-claro);
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-
-        /* TABLA RESPONSIVA */
-        .table-wrapper {
-            max-height: 500px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            background: white;
-        }
-
-        th { 
-            background: var(--azul-policial); 
-            color: white; 
-            padding: 12px 8px; 
-            text-align: center; 
-            text-transform: uppercase; 
-            font-size: 12px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        /* Convertir tabla en tarjetas en móviles */
-        @media (max-width: 600px) {
-            thead { display: none; } /* Esconde cabecera en móvil */
-            
-            tr {
-                display: block;
-                border-bottom: 2px solid #eee;
-                padding: 10px 0;
-            }
-
-            td {
-                display: flex;
-                justify-content: space-between;
-                padding: 5px 10px;
-                border: none;
-                text-align: right !important;
-                font-size: 14px;
-            }
-
-            td::before {
-                content: attr(data-label);
-                font-weight: bold;
-                text-transform: uppercase;
-                font-size: 12px;
-                color: var(--azul-claro);
-                text-align: left;
-            }
-
-            td:first-child { 
-                background: #f1f4f7;
-                justify-content: center;
-                font-size: 16px;
-            }
-            td:first-child::before { content: ""; }
-        }
-
-        td { 
-            padding: 12px; 
-            border-bottom: 1px solid #dee2e6; 
-            text-align: center; 
-            cursor: pointer;
-        }
-
-        tr:hover td { background: #f1f4f7; }
-
-        .tag-zona { 
-            display: inline-block; 
-            padding: 5px 12px; 
-            border-radius: 4px; 
-            font-size: 11px; 
-            font-weight: bold; 
-            color: white; 
-            background: var(--azul-policial);
-        }
-
-        /* MAPA Y LEYENDA */
-        .map-section {
-            margin-top: 25px;
-            border: 3px solid var(--azul-policial);
-            border-radius: 8px;
             overflow: hidden;
         }
 
-        iframe {
-            width: 100%;
-            height: 350px; /* Un poco más bajo para móviles */
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #1e3c5a 0%, #122538 100%);
+            color: white;
+            padding: 20px;
+        }
+
+        .nav-container { position: relative; }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: 1px solid white;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px 12px;
+            border-radius: 6px;
+        }
+
+        .nav-buttons { display: flex; gap: 10px; }
+        
+        .btn-nav {
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .btn-nav:hover { background: rgba(255,255,255,0.2); }
+
+        .search-box { 
+            padding: 20px; 
+            background: var(--gris-claro);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        input#busqueda { 
+            flex: 1;
+            min-width: 200px;
+            padding: 12px; 
+            border: 2px solid #ccc; 
+            border-radius: 8px; 
+            font-size: 16px;
+        }
+
+        input#altura {
+            width: 100px;
+            padding: 12px; 
+            border: 2px solid #ccc; 
+            border-radius: 8px; 
+            font-size: 16px;
+        }
+
+        .btn-search {
+            padding: 12px 25px;
+            background: var(--azul-policial);
+            color: white;
             border: none;
-            display: block;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
         }
 
-        @media (min-width: 768px) {
-            iframe { height: 450px; }
+        .referencias-container {
+            margin: 10px 20px;
+            padding: 15px 20px;
+            background-color: var(--gris-fondo-ref);
+            border-radius: 15px;
+            border-left: 6px solid var(--azul-policial);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
         }
 
-        .leyenda-container {
+        .referencias-titulo {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--azul-policial);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        .zona-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+            gap: 15px;
+        }
+
+        .card-zona {
             background: white;
             padding: 15px;
-            border-top: 2px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .leyenda-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
+        .card-zona h4 {
+            margin: 0 0 8px 0;
+            color: var(--azul-policial);
+            font-size: 18px;
+            font-weight: 700;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
         }
 
-        @media (min-width: 768px) {
-            .leyenda-grid { grid-template-columns: repeat(3, 1fr); }
+        .card-zona p {
+            margin: 0;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
         }
 
-        .leyenda-item {
+        #mensaje-resultado {
+            padding: 15px;
+            margin: 10px 20px;
+            border-radius: 8px;
+            display: none;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .status-ok { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status-fuera { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+
+        .map-container { padding: 20px; }
+        iframe { width: 100%; height: 400px; border-radius: 12px; border: 1px solid #ccc; }
+
+        .tabla-wrapper { padding: 0 20px 20px; display: none; max-height: 400px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; background: white; table-layout: auto; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        
+        th:nth-child(3), td:nth-child(3) { 
+            white-space: nowrap; 
+            width: 1%;
+            min-width: 85px; 
+        }
+
+        th { background: var(--azul-policial); color: white; position: sticky; top: 0; }
+        tr:hover { background: #f1f1f1; cursor: pointer; }
+
+        .tag-zona { 
+            background: var(--verde-policial); 
+            color: black; 
+            padding: 5px 10px; 
+            border-radius: 4px; 
+            font-size: 12px; 
+            font-weight: bold;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        .nota-calle { display: block; font-size: 13px; color: #666; font-style: italic; margin-top: 4px; }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--azul-oscuro);
+            color: white;
             font-size: 12px;
-            padding: 10px;
-            background: var(--gris-claro);
-            border-left: 4px solid var(--azul-policial);
-            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        /* --- NUEVOS ESTILOS PARA IMPRESIÓN --- */
+        #titulo-reporte-print { display: none; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .header-flex, .search-box, .tabla-wrapper, .referencias-container, .footer, .hamburger { display: none !important; }
+            .container { box-shadow: none; max-width: 100%; width: 100%; border: none; }
+            #titulo-reporte-print { 
+                display: block !important; 
+                text-align: center; 
+                font-size: 22px; 
+                margin-top: 20px;
+                font-weight: bold;
+            }
+            #mensaje-resultado { 
+                display: block !important; 
+                border: 2px solid #000 !important; 
+                color: black !important; 
+                background: white !important; 
+                margin: 20px auto !important;
+                width: 90%;
+            }
+            iframe { height: 500px !important; border: 1px solid #000; }
+        }
+
+        @media (max-width: 600px) {
+            .header-flex { padding: 15px; }
+            .search-box { flex-direction: column; padding: 15px; }
+            input#busqueda, input#altura, .btn-search { width: 100% !important; box-sizing: border-box; }
+            .hamburger { display: block; }
+            .nav-buttons {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                right: 0;
+                top: 45px;
+                background: var(--azul-oscuro);
+                padding: 10px;
+                z-index: 1000;
+                width: 180px;
+            }
+            .nav-buttons.active { display: flex; }
+            .btn-nav { width: 100%; text-align: left; }
+            th, td { padding: 8px 5px; font-size: 13px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <h2 id="titulo-reporte-print">REPORTE DE JURISDICCIÓN - COMISARÍA 8VA DON BOSCO</h2>
+
     <div class="header-flex">
-        <h2>Nomenclador - Comisaría Norte 8va. Don Bosco</h2>
-        <a id="downloadPDF" class="btn-download" href="https://drive.google.com/uc?export=download&id=1G71uogoFE6boorXlvMoWBKSQkKwGjj4x" target="_blank">
-            <span>📥</span> Descargar PDF
-        </a>
+        <div>
+            <h2 style="margin:0;">NOMENCLADOR JURISDICCIONAL</h2>
+            <small>COMISARIA NORTE 8VA - DON BOSCO</small>
+        </div>
+        <div class="nav-container">
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
+            <div class="nav-buttons" id="navButtons">
+                <button class="btn-nav" onclick="verMapaJurisdiccion()">🗺️ MAPA GRAL</button>
+                <button class="btn-nav" onclick="descargarPDF()">📄 DESCARGAR PDF</button>
+                <button class="btn-nav" onclick="imprimirMapa()">🖨️ IMPRIMIR MAPA</button>
+            </div>
+        </div>
     </div>
-    <span class="author-tag">by Mario Maiolo</span>
-    
-    <input type="text" id="busqueda" class="search-box" placeholder="🔎 Filtrar calle..." autofocus>
-    <span class="instruccion">📍 Toque una calle para ver el mapa</span>
-    
-    <div class="table-wrapper">
-        <table id="tablaCalles">
+
+    <div class="search-box">
+        <input type="text" id="busqueda" placeholder="Nombre de la calle..." oninput="validarSoloLetras(this)">
+        <input type="number" id="altura" placeholder="Altura" oninput="validarAltura(this)">
+        <button class="btn-search" onclick="ejecutarBusqueda()">BUSCAR</button>
+        <button class="btn-search" style="background:#6c757d;" onclick="alternarLista()">LISTADO COMPLETO</button>
+    </div>
+
+    <div id="mensaje-resultado"></div>
+
+    <div id="tablaContenedor" class="tabla-wrapper">
+        <table>
             <thead>
                 <tr>
-                    <th>Calle</th>
-                    <th>Alturas</th>
-                    <th>Mano</th>
+                    <th>Calle / Observación</th>
+                    <th>Rango</th>
                     <th>Zona</th>
-                    <th>Notas</th>
                 </tr>
             </thead>
-            <tbody id="lista"></tbody>
+            <tbody id="cuerpoTabla"></tbody>
         </table>
     </div>
 
-    <div class="map-section">
-        <iframe id="mapaIframe" src="about:blank"></iframe>
-        
-        <div class="leyenda-container">
-            <div style="font-weight: bold; text-align: center; margin-bottom: 10px; color: var(--azul-policial);">LÍMITES JURISDICCIONALES</div>
-            <div class="leyenda-grid">
-                <div class="leyenda-item"><strong>ZONA 8:</strong> Mosconi, Brandsen, Humboldt, Pringles, Pepirí y Arriola.</div>
-                <div class="leyenda-item"><strong>ZONA 9:</strong> Cisneros, Arriola, Pepirí, Pringles, Humboldt y Gral. San Martín.</div>
-                <div class="leyenda-item"><strong>ZONA 11:</strong> Cisneros, Gral. San Martín, Mosconi y Arriola.</div>
+    <div class="map-container">
+        <iframe id="mapaFrame" src=""></iframe>
+    </div>
+
+    <div class="referencias-container">
+        <div class="referencias-titulo">📍 REFERENCIAS DE ZONAS</div>
+        <div class="zona-grid">
+            <div class="card-zona">
+                <h4>ZONA 8</h4>
+                <p>Av. Gral. Enrique Mosconi, Brandsen, Humboldt, Pringles, Pepirí y Arriola.</p>
+            </div>
+            <div class="card-zona">
+                <h4>ZONA 9</h4>
+                <p>Virrey Cisneros, Arriola, Pepirí, Pringles, Humboldt y Gral. San Martín.</p>
+            </div>
+            <div class="card-zona">
+                <h4>ZONA 11</h4>
+                <p>Virrey Cisneros, Av. Gral. San Martín, Av. Gral. Enrique Mosconi y Arriola.</p>
             </div>
         </div>
+    </div>
+
+    <div class="footer">
+        by <strong>MARIO N. MAIOLO - Todos los derechos reservados © 2026</strong> <br> 
     </div>
 </div>
 
 <script>
+    const PDF_URL = "https://drive.google.com/file/d/1G71uogoFE6boorXlvMoWBKSQkKwGjj4x/view?usp=sharing";
+    const MAPA_JURISDICCION_URL = "https://drive.google.com/file/d/10BfC3v9k4GvsMJqlczQTpRrdsCt-vTha/view?usp=sharing";
+
     const baseDeDatos = [
-        { nombre: "Alvear", desde: 2100, hasta: 2900, mano: "Única (hacia Mirador)", zona: 8, notas: "" },
-        { nombre: "José Nicolas de Arriola", desde: 1850, hasta: 2700, mano: "Única (hacia Ramos)", zona: 8, notas: "Límite con zona 11" },
-        { nombre: "Av. de Mayo", desde: 1900, hasta: 2000, mano: "Doble", zona: 8, notas: "(Pares) Esc. Don Bosco" },
-        { nombre: "Albariños", desde: 2100, hasta: 2700, mano: "Única (hacia Mirador)", zona: 8, notas: "" },
-        { nombre: "Av. Gral. Enrique Mosconi", desde: 1100, hasta: 1600, mano: "Doble", zona: 8, notas: "(Impares) Límite Cría. 4ta Mirador" },
-        { nombre: "Av. Gral. Enrique Mosconi", desde: 1700, hasta: 2200, mano: "Doble", zona: 11, notas: "(Impares) Límite Cría. 4ta Mirador" },
-        { nombre: "Av. Pedro Palacios", desde: 0, hasta: 300, mano: "Doble", zona: 9, notas: "Predio deportivo Ateneo" },
-        { nombre: "Av. Pedro Palacios", desde: 400, hasta: 1500, mano: "Doble", zona: 8, notas: "" },
-        { nombre: "Av. Gral. San Martin", desde: 1200, hasta: 1600, mano: "Doble", zona: 9, notas: "(Impares) Límite Cría. 9na Millon" },
-        { nombre: "Av. Gral. San Martin", desde: 1700, hasta: 2800, mano: "Doble", zona: 8, notas: "(Impares) Límite Cría. 9na Millon" },
-        { nombre: "Avellaneda", desde: 2100, hasta: 2900, mano: "Única (hacia Ramos)", zona: 8, notas: "" },
-        { nombre: "Atuel", desde: 0, hasta: 300, mano: "Única (hacia Mirador)", zona: 8, notas: "" },
-        { nombre: "Aconcagua", desde: 0, hasta: 200, mano: "Única (hacia Mirador)", zona: 8, notas: "Cría 8va Don Bosco" },
-        { nombre: "Manuel Artigas", desde: 0, hasta: 500, mano: "Única (hacia Millón)", zona: 11, notas: "" },
-        { nombre: "Manuel Artigas", desde: 600, hasta: 1200, mano: "Única (hacia Millón)", zona: 8, notas: "" },
-        { nombre: "Felipe de Arana", desde: 500, hasta: 1100, mano: "Doble", zona: 8, notas: "Soc. Fomento / EES 126" },
-        { nombre: "Bolívar", desde: 1600, hasta: 1900, mano: "Única (hacia Mirador)", zona: 9, notas: "Polideportivo Ateneo" },
-        { nombre: "Bolívar", desde: 2000, hasta: 2700, mano: "Única (hacia Mirador)", zona: 11, notas: "" },
-        { nombre: "Cnel. Brandsen", desde: 1700, hasta: 2900, mano: "Doble", zona: 8, notas: "(Pares) Límite Cría. 1ra San Justo" },
-        { nombre: "Colombia", desde: 0, hasta: 600, mano: "Única (hacia Millón)", zona: 9, notas: "" },
-        { nombre: "Colombia", desde: 700, hasta: 960, mano: "Única (hacia Millón)", zona: 8, notas: "" },
-        { nombre: "Colombia", desde: 1000, hasta: 1200, mano: "Única (hacia San Justo)", zona: 8, notas: "" },
-        { nombre: "Cotagaita", desde: 2000, hasta: 2700, mano: "Doble", zona: 8, notas: "" },
-        { nombre: "Virrey Cisneros", desde: 0, hasta: 600, mano: "Única (hacia Millón)", zona: "9/11", notas: "" },
-        { nombre: "Virrey Cisneros", desde: 900, hasta: 1200, mano: "Única (hacia San Justo)", zona: 8, notas: "Casa de Retiro" },
-        { nombre: "Caupolicán", desde: 0, hasta: 100, mano: "Doble", zona: 9, notas: "" },
-        { nombre: "Caupolicán", desde: 300, hasta: 800, mano: "Única (hacia Millón)", zona: 8, notas: "" },
-        { nombre: "Cerrito", desde: 1300, hasta: 1500, mano: "Única (hacia Mirador)", zona: 9, notas: "" },
-        { nombre: "Cerrito", desde: 1600, hasta: 2800, mano: "Única (hacia Mirador)", zona: 11, notas: "" },
-        { nombre: "Candelaria", desde: 0, hasta: 200, mano: "Única (hacia Ramos Mejía)", zona: 8, notas: "" },
-        { nombre: "Valentín Cardoso", desde: 1300, hasta: 1500, mano: "Única (hacia Ramos Mejía)", zona: 9, notas: "" },
-        { nombre: "Valentín Cardoso", desde: 1600, hasta: 2400, mano: "Única (hacia Ramos Mejía)", zona: 11, notas: "" }, 
-        { nombre: "Dardo Rocha", desde: 600, hasta: 700, mano: "Única (hacia Millón)", zona: 8, notas: "" }, 
-        { nombre: "Dardo Rocha", desde: 0, hasta: 500, mano: "Única (hacia Millón)", zona: 11, notas: "" }, 
-        { nombre: "Formosa", desde: 1800, hasta: 2700, mano: "Doble", zona: 8, notas: "" }, 
-        { nombre: "Humboldt", desde: 0, hasta: 400, mano: "Doble", zona: 9, notas: "(Pares) Límite Cría. 2da Ramos" }, 
-        { nombre: "Humboldt", desde: 500, hasta: 1000, mano: "Doble", zona: 8, notas: "(Pares) Límite Cría. 2da Ramos" }, 
-        { nombre: "José Martí", desde: 2000, hasta: 2700, mano: "Única (hacia Ramos Mejía)", zona: 8, notas: "" },
-        { nombre: "José Mármol", desde: 0, hasta: 500, mano: "Única (hacia San Justo)", zona: 11, notas: "" },
-        { nombre: "José Mármol", desde: 600, hasta: 1200, mano: "Única (hacia San Justo)", zona: 8, notas: "" },
-        { nombre: "Malabia", desde: 0, hasta: 500, mano: "Única (hacia San Justo)", zona: 11, notas: "" },
-        { nombre: "Malabia", desde: 600, hasta: 900, mano: "Única (hacia San Justo)", zona: 8, notas: "" },
-        { nombre: "Mariano Moreno", desde: 1600, hasta: 1800, mano: "Única (hacia Millón)", zona: 9, notas: "" },
-        { nombre: "Mariano Moreno", desde: 1900, hasta: 2800, mano: "Única (hacia Millón)", zona: 11, notas: "" },
-        { nombre: "Necochea", desde: 2000, hasta: 2200, mano: "Única (hacia Millón)", zona: 8, notas: "" },
-        { nombre: "Olaya", desde: 1900, hasta: 2600, mano: "Única (hacia Ramos Mejía)", zona: 8, notas: "" },
-        { nombre: "Domingo Olivera", desde: 600, hasta: 900, mano: "Única (hacia Millón)", zona: 8, notas: "" },
-        { nombre: "J. L. Pereyra", desde: 0, hasta: 500, mano: "Doble", zona: 9, notas: "" },
-        { nombre: "J. L. Pereyra", desde: 600, hasta: 700, mano: "Única (hacia San Justo)", zona: 9, notas: "" },
-        { nombre: "J. L. Pereyra", desde: 800, hasta: 1200, mano: "Única (hacia San Justo)", zona: 8, notas: "" },
-        { nombre: "Pringles", desde: 1700, hasta: 1900, mano: "Única (hacia Ramos Mejía)", zona: 8, notas: "" },
-        { nombre: "Pringles", desde: 2200, hasta: 2700, mano: "Única (hacia Mirador)", zona: 8, notas: "" },
-        { nombre: "Pirovano", desde: 300, hasta: 800, mano: "Doble", zona: 8, notas: "" },
-        { nombre: "Cnel. Pizarro", desde: 600, hasta: 800, mano: "Doble", zona: 8, notas: "" },
-        { nombre: "Páez", desde: 800, hasta: 1200, mano: "Única (hacia Millón)", zona: 8, notas: "" },
-        { nombre: "Pepiri", desde: 0, hasta: 200, mano: "Única (hacia Ramos Mejía)", zona: 8, notas: "" },
-        { nombre: "Salta", desde: 0, hasta: 500, mano: "Única (hacia San Justo)", zona: 11, notas: "" },
-        { nombre: "Salta", desde: 600, hasta: 800, mano: "Única (hacia San Justo)", zona: 8, notas: "" },
-        { nombre: "Temple", desde: 1700, hasta: 1900, mano: "Única (hacia Ramos Mejía)", zona: 9, notas: "" },
-        { nombre: "Temple", desde: 2000, hasta: 2800, mano: "Única (hacia Ramos Mejía)", zona: 11, notas: "" },
-        { nombre: "Florencio Varela", desde: 0, hasta: 400, mano: "Única (hacia Millón)", zona: 11, notas: "" },
-        { nombre: "Florencio Varela", desde: 500, hasta: 1200, mano: "Única (hacia Millón)", zona: 8, notas: "" },
-        { nombre: "Venezuela", desde: 300, hasta: 800, mano: "Doble", zona: 8, notas: "" },
-        { nombre: "Tomas Justo Villegas", desde: 0, hasta: 400, mano: "Doble", zona: 11, notas: "" },
-        { nombre: "Tomas Justo Villegas", desde: 500, hasta: 1100, mano: "Doble", zona: 8, notas: "" },
+        { nombre: "Alvear", desde: 2100, hasta: 2900, zona: "8", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DESTACAMENTO LOMAS DEL MIRADOR" },
+        { nombre: "José Nicolás de Arriola", desde: 1850, hasta: 2700, zona: "8", bajo: "No existe", alto: "DESTACAMENTO LOMAS DEL MIRADOR", observacion: "Límite con zona 11" },
+        { nombre: "Av. de Mayo", desde: 1900, hasta: 2000, zona: "8", bajo: "COMISARIA 2DARAMOS MEJIA", alto: "COMISARIA 1RA SAN JUSTO", observacion: "(Pares) Esc. Don Bosco" },
+        { nombre: "Albariños", desde: 2100, hasta: 2700, zona: "8", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "NO EXISTE" },
+        { nombre: "Av. Gral. Enrique Mosconi", desde: 1100, hasta: 1600, zona: "8", bajo: "DEST. LOMAS DEL MIRADOR / CRIA. 9NA LOMAS DEL MILLON", alto: "COMISARIA 1RA SAN JUSTO", limite: "impar", observacion: "(Num. par) Corresponde a DESTACAMENTO LOMAS DEL MIRADOR" },
+        { nombre: "Av. Gral. Enrique Mosconi", desde: 1600, hasta: 2200, zona: "11", bajo: "DEST. LOMAS DEL MIRADOR", alto: "COMISARIA 1RA SAN JUSTO", limite: "impar", observacion: "(Num. par) Corresponde a DESTACAMENTO LOMAS DEL MIRADOR" },
+        { nombre: "Pedro Bonifacio Palacios", desde: 0, hasta: 300, zona: "9", bajo: "NO EXISTE", alto: "NO EXISTE", observacion: "Predio deportivo Ateneo" },
+        { nombre: "Pedro Bonifacio Palacios", desde: 400, hasta: 1500, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Av. Gral. San Martin", desde: 1200, hasta: 1600, zona: "9", bajo: "CRIA. 9NA LOMAS DEL MILLON", alto: "DEST. LOMAS DEL MIRADOR", limite: "impar", observacion: "(Num. par) Corresponde a COMISARIA 9NA LOMAS DEL MILLON" },
+        { nombre: "Av. Gral. San Martin", desde: 1600, hasta: 2800, zona: "8", bajo: "CRIA. 9NA LOMAS DEL MILLON", alto: "DEST. LOMAS DEL MIRADOR", limite: "impar", observacion: "(Num. par) Corresponde a COMISARIA 9NA LOMAS DEL MILLON" },
+        { nombre: "Avellaneda", desde: 2100, hasta: 2900, zona: "8", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DESTACAMENTO LOMAS DEL MIRADOR" },
+        { nombre: "Atuel", desde: 0, hasta: 300, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Aconcagua", desde: 0, hasta: 200, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE", observacion: "Cría 8va Don Bosco" },
+        { nombre: "Manuel Artigas", desde: 0, hasta: 500, zona: "11", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Manuel Artigas", desde: 500, hasta: 1200, zona: "8", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Felipe de Arana", desde: 500, hasta: 1100, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Bolívar", desde: 1600, hasta: 1900, zona: "9", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DEST. LOMAS DEL MIRADOR", observacion: "Ateneo" },
+        { nombre: "Bolívar", desde: 1900, hasta: 2700, zona: "11", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Cnel. Brandsen", desde: 1700, hasta: 2900, zona: "8", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DEST. LOMAS DEL MIRADOR", limite: "par", observacion: "(puertas adentro num par) Calles y Veredas corresponde a COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Colombia", desde: 0, hasta: 600, zona: "9", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Colombia", desde: 600, hasta: 1200, zona: "8", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Cotagaita", desde: 2000, hasta: 2700, zona: "8", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Virrey Cisneros", desde: 0, hasta: 600, zona: "9/11", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Virrey Cisneros", desde: 900, hasta: 1200, zona: "8", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Caupolican", desde: 0, hasta: 100, zona: "9", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Caupolican", desde: 300, hasta: 800, zona: "8", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Cerrito", desde: 1300, hasta: 1500, zona: "9", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Cerrito", desde: 1600, hasta: 2800, zona: "11", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Candelaria", desde: 0, hasta: 200, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Valentín Cardoso", desde: 1300, hasta: 1500, zona: "9", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Valentín Cardoso", desde: 1600, hasta: 2400, zona: "11", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Dardo Rocha", desde: 0, hasta: 500, zona: "11", bajo: "NO EXISTE", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Dardo Rocha", desde: 600, hasta: 700, zona: "8", bajo: "NO EXISTE", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Formosa", desde: 1800, hasta: 2700, zona: "8", bajo: "NO EXISTE", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Humboldt", desde: 0, hasta: 400, zona: "9", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO", limite: "par", observacion: "(puertas adentro num par) Calle y veredas corresponden a COMISARIA 2DA RAMOS MEJIA" },
+        { nombre: "Humboldt", desde: 500, hasta: 1000, zona: "8", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO", limite: "par", observacion: "(puertas adentro num par) Calle y veredas corresponde a COMISARIA 2DA RAMOS MEJIA" },
+        { nombre: "José Martí", desde: 2000, hasta: 2700, zona: "8", bajo: "NO EXISTE", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Mármol", desde: 0, hasta: 500, zona: "11", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Mármol", desde: 600, hasta: 1200, zona: "8", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Malabia", desde: 0, hasta: 500, zona: "11", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Malabia", desde: 600, hasta: 900, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Mariano Moreno", desde: 1600, hasta: 1800, zona: "9", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Mariano Moreno", desde: 1700, hasta: 2800, zona: "11", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Necochea", desde: 2000, hasta: 2200, zona: "8", bajo: "NO EXISTE", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Olaya", desde: 1900, hasta: 2600, zona: "8", bajo: "NO EXISTE", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Domingo Olivera", desde: 600, hasta: 900, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "J. L. Pereyra", desde: 0, hasta: 600, zona: "9", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "J. L. Pereyra", desde: 700, hasta: 1200, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Pringles", desde: 1700, hasta: 2700, zona: "8", bajo: "COMISARIA 2DA RAMOS MEJIA", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Pirovano", desde: 300, hasta: 800, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Coronel Pizarro", desde: 600, hasta: 800, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Páez", desde: 800, hasta: 1200, zona: "8", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Pepirí", desde: 0, hasta: 200, zona: "8", bajo: "NO EXISTE", alto: "NO EXISTE" },
+        { nombre: "Salta", desde: 0, hasta: 500, zona: "11", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Salta", desde: 600, hasta: 800, zona: "8", bajo: "COMISARIA 1RA SAN JUSTO", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Temple", desde: 1700, hasta: 1900, zona: "9", bajo: "NO EXISTE", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Temple", desde: 2000, hasta: 2800, zona: "11", bajo: "NO EXISTE", alto: "DEST. LOMAS DEL MIRADOR" },
+        { nombre: "Florencio Varela", desde: 0, hasta: 400, zona: "11", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Florencio Varela", desde: 500, hasta: 1200, zona: "8", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Venezuela", desde: 300, hasta: 800, zona: "8", bajo: "COMISARIA 1RA SAN JUSTO", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Tomás Justo Villegas", desde: 0, hasta: 400, zona: "11", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" },
+        { nombre: "Tomás Justo Villegas", desde: 500, hasta: 1100, zona: "8", bajo: "NO EXISTE", alto: "COMISARIA 1RA SAN JUSTO" }
     ];
 
-    const input = document.getElementById('busqueda');
-    const lista = document.getElementById('lista');
-    const mapaIframe = document.getElementById('mapaIframe');
+    function toggleMenu() {
+        const nav = document.getElementById('navButtons');
+        nav.classList.toggle('active');
+    }
 
-    function actualizarMapa(calle, altura) {
-        const direccion = `${calle} ${altura}, B1704 Ramos Mejía, La Matanza, Buenos Aires`;
-        // CORRECCIÓN: Uso de backticks (`) para que funcione la interpolación de variables en JS
-        const url = `https://maps.google.com/maps?q=${encodeURIComponent(direccion)}&output=embed`;
-        mapaIframe.src = url;
-        // Scroll suave al mapa en móviles al seleccionar
-        if (window.innerWidth < 768) {
-            mapaIframe.scrollIntoView({ behavior: 'smooth' });
+    function validarSoloLetras(input) {
+        input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ ]/g, "");
+    }
+
+    function validarAltura(input) {
+        input.value = input.value.replace(/\D/g, "");
+        if (input.value > 99999) { input.value = 99999; }
+    }
+
+    function verMapaJurisdiccion() { 
+        window.open(MAPA_JURISDICCION_URL, '_blank'); 
+        document.getElementById('navButtons').classList.remove('active');
+    }
+    
+    function descargarPDF() { 
+        window.open(PDF_URL, '_blank'); 
+        document.getElementById('navButtons').classList.remove('active');
+    }
+
+    function imprimirMapa() {
+        const busqueda = document.getElementById('busqueda').value;
+        const mensaje = document.getElementById('mensaje-resultado');
+        document.getElementById('navButtons').classList.remove('active');
+
+        if (busqueda === "" || mensaje.style.display === "none") {
+            alert("Debe realizar una búsqueda válida antes de imprimir.");
+            return;
+        }
+
+        const tituloOriginal = document.title;
+        document.title = `REPORTE_${busqueda.toUpperCase()}`;
+        window.print();
+        document.title = tituloOriginal;
+    }
+
+    function centrarMapaInicial() {
+        const ubicacionInicial = "Aconcagua 14, Ramos Mejia, Buenos Aires";
+        const query = encodeURIComponent(ubicacionInicial);
+        document.getElementById('mapaFrame').src = `https://maps.google.com/maps?q=${query}&output=embed`;
+    }
+
+    function alternarLista() {
+        const cuerpoTabla = document.getElementById('cuerpoTabla');
+        const tablaWrapper = document.getElementById('tablaContenedor');
+        const mensaje = document.getElementById('mensaje-resultado');
+        
+        if (tablaWrapper.style.display === "block") {
+            tablaWrapper.style.display = "none";
+        } else {
+            mensaje.style.display = "none";
+            cuerpoTabla.innerHTML = "";
+            baseDeDatos.forEach(c => {
+                const tr = document.createElement('tr');
+                const notaHtml = c.observacion ? `<span class="nota-calle">📌 ${c.observacion}</span>` : '';
+                tr.innerHTML = `<td><strong>${c.nombre}</strong>${notaHtml}</td><td>${c.desde} al ${c.hasta}</td><td><span class="tag-zona">Zona ${c.zona}</span></td>`;
+                tr.onclick = () => { document.getElementById('busqueda').value = c.nombre; ejecutarBusqueda(); };
+                cuerpoTabla.appendChild(tr);
+            });
+            tablaWrapper.style.display = "block";
         }
     }
 
-    function renderizar(filtro = "") {
-        lista.innerHTML = "";
-        const filtradas = baseDeDatos.filter(c => 
-            c.nombre.toLowerCase().includes(filtro.toLowerCase())
+    function ejecutarBusqueda() {
+        const busquedaInput = document.getElementById('busqueda').value.trim().toLowerCase();
+        const alturaInput = document.getElementById('altura').value;
+        const mensaje = document.getElementById('mensaje-resultado');
+        const tablaWrapper = document.getElementById('tablaContenedor');
+        const cuerpoTabla = document.getElementById('cuerpoTabla');
+        
+        cuerpoTabla.innerHTML = "";
+        
+        if (busquedaInput === "") {
+            mensaje.innerHTML = "⚠️ Ingrese el nombre de una calle.";
+            mensaje.className = "status-error";
+            mensaje.style.display = "block";
+            tablaWrapper.style.display = "none";
+            return;
+        }
+
+        const resultados = baseDeDatos.filter(c => 
+            c.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .includes(busquedaInput.normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
         );
 
-        filtradas.forEach(c => {
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td data-label="Calle"><strong>${c.nombre}</strong></td>
-                <td data-label="Alturas">${c.desde} - ${c.hasta}</td>
-                <td data-label="Mano">${c.mano}</td>
-                <td data-label="Zona"><span class="tag-zona">Zona ${c.zona}</span></td>
-                <td data-label="Notas"><small>${c.notas || '-'}</small></td>
-            `;
-            fila.onclick = () => actualizarMapa(c.nombre, c.desde);
-            lista.appendChild(fila);
+        if (resultados.length === 0) {
+            mensaje.innerHTML = "❌ Calle no encontrada.";
+            mensaje.className = "status-error";
+            mensaje.style.display = "block";
+            tablaWrapper.style.display = "none";
+            return;
+        }
+
+        resultados.forEach(calle => {
+            const tr = document.createElement('tr');
+            const notaHtml = calle.observacion ? `<span class="nota-calle">📌 ${calle.observacion}</span>` : '';
+            tr.innerHTML = `<td><strong>${calle.nombre}</strong>${notaHtml}</td><td>${calle.desde} al ${calle.hasta}</td><td><span class="tag-zona">Zona ${calle.zona}</span></td>`;
+            tr.onclick = () => { 
+                document.getElementById('busqueda').value = calle.nombre; 
+                validarAlturaEspecifica(calle); 
+            };
+            cuerpoTabla.appendChild(tr);
         });
+
+        tablaWrapper.style.display = "block";
+        
+        if (alturaInput !== "") {
+            const alturaNum = parseInt(alturaInput);
+            const tramoManual = resultados.find(c => alturaNum >= c.desde && alturaNum <= c.hasta);
+            if (tramoManual) {
+                validarAlturaEspecifica(tramoManual);
+            } else {
+                mensaje.innerHTML = "🔍 Calle encontrada, pero la altura fuera de rango. Toque en lista para verificar.";
+                mensaje.className = "status-fuera";
+                mensaje.style.display = "block";
+            }
+        } else {
+            mensaje.innerHTML = "💡 Se encontraron " + resultados.length + " tramos. Toque uno para ver detalles.";
+            mensaje.className = "status-ok";
+            mensaje.style.display = "block";
+        }
     }
 
-    window.onload = () => {
-        const inicial = "Av. San Martin y Av. Mosconi, Ramos Mejía, La Matanza";
-        mapaIframe.src = `https://maps.google.com/maps?q=${encodeURIComponent(inicial)}&output=embed`;
-        renderizar();
-    };
+    function validarAlturaEspecifica(calleSeleccionada) {
+        const alturaInput = document.getElementById('altura').value;
+        const alturaNum = parseInt(alturaInput);
+        const mensaje = document.getElementById('mensaje-resultado');
+        
+        if (isNaN(alturaNum)) {
+            mensaje.innerHTML = `📍 Seleccionado: ${calleSeleccionada.nombre}. <br> Ingrese una altura para verificar la zona exacta.`;
+            mensaje.className = "status-ok";
+            mensaje.style.display = "block";
+            actualizarMapa(calleSeleccionada.nombre, calleSeleccionada.desde);
+            return;
+        }
 
-    input.addEventListener('input', () => renderizar(input.value));
+        const tramoCorrecto = baseDeDatos.find(c => 
+            c.nombre.toLowerCase() === calleSeleccionada.nombre.toLowerCase() && 
+            alturaNum >= c.desde && 
+            alturaNum <= c.hasta
+        );
+
+        if (tramoCorrecto) {
+            const esPar = (alturaNum % 2 === 0);
+            if (tramoCorrecto.limite) {
+                if ((tramoCorrecto.limite === "par" && !esPar) || (tramoCorrecto.limite === "impar" && esPar)) {
+                    mensaje.innerHTML = `⚠️ ALTURA EN RANGO PERO VEREDA OPUESTA. <br> ${tramoCorrecto.observacion || 'Jurisdicción colindante'}`;
+                    mensaje.className = "status-fuera";
+                } else {
+                    mensaje.innerHTML = `✅ JURISDICCIÓN CORRECTA. <br> COMISARÍA NORTE 8VA DON BOSCO - Zona ${tramoCorrecto.zona}`;
+                    mensaje.className = "status-ok";
+                }
+            } else {
+                mensaje.innerHTML = `✅ ALTURA DENTRO DE JURISDICCIÓN. <br> Zona ${tramoCorrecto.zona} - COMISARÍA NORTE 8VA DON BOSCO`;
+                mensaje.className = "status-ok";
+            }
+        } else {
+            if (alturaNum < calleSeleccionada.desde) {
+                mensaje.innerHTML = `❌ FUERA DE JURISDICCIÓN. <br> Corresponde a: ${calleSeleccionada.bajo}`;
+            } else {
+                mensaje.innerHTML = `❌ FUERA DE JURISDICCIÓN. <br> Corresponde a: ${calleSeleccionada.alto}`;
+            }
+            mensaje.className = "status-fuera";
+        }
+        
+        actualizarMapa(calleSeleccionada.nombre, alturaNum);
+        mensaje.style.display = "block";
+    }
+
+    function actualizarMapa(calle, altura) {
+        const query = encodeURIComponent(`${calle} ${altura}, Ramos Mejía, Buenos Aires`);
+        document.getElementById('mapaFrame').src = `https://maps.google.com/maps?q=${query}&output=embed`;
+    }
+
+    window.onload = centrarMapaInicial;
 </script>
 
 </body>
