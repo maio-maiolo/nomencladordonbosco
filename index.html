@@ -634,11 +634,11 @@
                     mensaje.innerHTML = `⚠️ ALTURA EN RANGO PERO VEREDA OPUESTA. <br> ${tramoCorrecto.observacion || 'JURISDICCION VECINA'}`;
                     mensaje.className = "status-fuera";
                 } else {
-                    mensaje.innerHTML = `✅ JURISDICCIÓN CORRECTA. <br> COMISARÍA NORTE 8VA DON BOSCO - Zona ${tramoCorrecto.zona}`;
+                    mensaje.innerHTML = `✅ JURISDICCIÓN CORRECTA. <br> COMISARÍA NORTE 8VA DON BOSCO - ZONA ${tramoCorrecto.zona}`;
                     mensaje.className = "status-ok";
                 }
             } else {
-                mensaje.innerHTML = `✅ ALTURA DENTRO DE JURISDICCIÓN. <br> Zona ${tramoCorrecto.zona} - COMISARÍA NORTE 8VA DON BOSCO`;
+                mensaje.innerHTML = `✅ ALTURA DENTRO DE JURISDICCIÓN. <br> ZONA ${tramoCorrecto.zona} - COMISARÍA NORTE 8VA DON BOSCO`;
                 mensaje.className = "status-ok";
             }
         } else {
