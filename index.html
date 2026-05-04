@@ -404,21 +404,12 @@
             </div>
         </div>
     </div>
-
-    <div class="footer" style="text-align: center; color: white; font-family: Segoe UI;">
     
+    <div class="footer" style="text-align: center; color: white; font-family: Segoe UI;">
     <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 10px;">
-        <span>VISITAS:</span> 
-        
-        <div id="sfccdpm71jepdqzmzb6rae7yl8mla3a3fah"></div>
-
-        <script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=cdpm71jepdqzmzb6rae7yl8mla3a3fah&down=async" async></script>
-        <noscript>
-            <a href="https://www.freecounterstat.com" title="website page counter">
-                <img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=cdpm71jepdqzmzb6rae7yl8mla3a3fah" border="0" title="website page counter" alt="website page counter">
-            </a>
-        </noscript>
-    </div>
+    <span>VISITAS:</span> 
+    <div id="contador-local" style="font-weight: bold; background: var(--azul-policial); color: white; padding: 2px 8px; border-radius: 4px;">0</div>
+</div>
     by <strong>MARIO N. MAIOLO - Todo los Derechos Reservados © 2026</strong>
 </div>
 
@@ -683,7 +674,24 @@
         const query = encodeURIComponent(`${calle} ${altura}, Ramos Mejía, Buenos Aires`);
         document.getElementById('mapaFrame').src = `https://maps.google.com/maps?q=${query}&output=embed`;
     }
-
+    // Lógica de contador sin internet (localStorage)
+   function actualizarContadorLocal() {
+    // Intentamos obtener el valor actual guardado
+    let visitas = localStorage.getItem('contador_nomenclador');
+    
+    if (visitas === null) {
+        visitas = 1; // Si es la primera vez, empezamos en 1
+    } else {
+        visitas = parseInt(visitas) + 1; // Incrementamos
+    }
+    // Guardamos el nuevo valor en la memoria del navegador
+    localStorage.setItem('contador_nomenclador', visitas);
+    // Lo mostramos en pantalla
+    document.getElementById('contador-local').innerText = visitas;
+}
+   // Llamamos a la función
+   actualizarContadorLocal();
+    
     window.onload = function() {
         // Cargar tema guardado
         const currentTheme = localStorage.getItem('theme') || 'light';
