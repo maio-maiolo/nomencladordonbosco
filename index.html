@@ -361,12 +361,13 @@
         </div>
     </div>
 
-    <div class="search-box">
-        <input type="text" id="busqueda" placeholder="Ingrese el nombre de la calle..." oninput="validarSoloLetras(this)">
-        <input type="number" id="altura" placeholder="Altura" oninput="validarAltura(this)">
-        <button class="btn-search" onclick="ejecutarBusqueda()">BUSCAR AHORA</button>
-        <button class="btn-search" style="background:#6c757d;" onclick="alternarLista()">LISTADO</button>
-    </div>
+<form class="search-box" onsubmit="event.preventDefault(); ejecutarBusqueda();">
+    <input type="text" id="busqueda" placeholder="Ingrese el nombre de la calle..." oninput="validarSoloLetras(this)">
+    <input type="number" id="altura" placeholder="Altura" oninput="validarAltura(this)">
+    <button type="submit" class="btn-search">BUSCAR AHORA</button>
+    <button type="button" class="btn-search" style="background:#6c757d;" onclick="alternarLista()">LISTADO</button>
+</form>
+
 
     <div id="mensaje-resultado"></div>
 
