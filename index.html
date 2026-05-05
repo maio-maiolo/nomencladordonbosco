@@ -549,10 +549,32 @@
     }
 
     function centrarMapaInicial() {
-        const ubicacionInicial = "Aconcagua 14, Ramos Mejia, Buenos Aires";
-        const query = encodeURIComponent(ubicacionInicial);
-        document.getElementById('mapaFrame').src = `https://maps.google.com/maps?q=${query}&output=embed`;
+    const ubicacionInicial = "Aconcagua 14, Ramos Mejia, Buenos Aires";
+    const query = encodeURIComponent(ubicacionInicial);
+    const mapa = document.getElementById('mapaFrame');
+    if (mapa) {
+        mapa.src = `https://maps.google.com/maps?q=${query}&output=embed`;
     }
+}
+
+// Evento de carga mejorado
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Cargar tema guardado
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    const checkbox = document.getElementById('checkbox');
+    if (currentTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        if(checkbox) checkbox.checked = true;
+    }
+
+    // 2. Ejecutar el contador (si existe la función)
+    if (typeof actualizarContadorLocal === "function") {
+        actualizarContadorLocal();
+    }
+
+    // 3. Cargar el mapa
+    centrarMapaInicial();
+});
 
     function alternarLista() {
         const cuerpoTabla = document.getElementById('cuerpoTabla');
@@ -685,24 +707,7 @@
         const query = encodeURIComponent(`${calle} ${altura}, Ramos Mejía, Buenos Aires`);
         document.getElementById('mapaFrame').src = `https://maps.google.com/maps?q=${query}&output=embed`;
     }
-    // Lógica de contador sin internet (localStorage)
-   function actualizarContadorLocal() {
-    // Intentamos obtener el valor actual guardado
-    let visitas = localStorage.getItem('contador_nomenclador');
-    
-    if (visitas === null) {
-        visitas = 1; // Si es la primera vez, empezamos en 1
-    } else {
-        visitas = parseInt(visitas) + 1; // Incrementamos
-    }
-    // Guardamos el nuevo valor en la memoria del navegador
-    localStorage.setItem('contador_nomenclador', visitas);
-    // Lo mostramos en pantalla
-    document.getElementById('contador-local').innerText = visitas;
-}
-   // Llamamos a la función
-   actualizarContadorLocal();
-    
+        
     window.onload = function() {
         // Cargar tema guardado
         const currentTheme = localStorage.getItem('theme') || 'light';
