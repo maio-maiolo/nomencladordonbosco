@@ -35,7 +35,10 @@
             --border-color: #444;
             --azul-policial: #2a4a6a;
         }
-        
+        /* Variables de Modo Oscuro Mapa */
+        [data-theme="dark"] iframe {
+              filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(90%);
+       }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-body); margin: 0; padding: 10px; color: var(--texto-principal); transition: background 0.3s; }
         
         .container { 
