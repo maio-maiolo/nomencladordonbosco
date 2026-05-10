@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nomenclador Don Bosco</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="map.png" type="image/x-icon">
     <link rel="shortcut icon" href="map.png" type="image/x-icon">
     <link rel="apple-touch-icon" href="map.png">
@@ -357,10 +358,19 @@
             
             <button class="hamburger" onclick="toggleMenu()">☰</button>
             <div class="nav-buttons" id="navButtons">
-                <button class="btn-nav" onclick="verMapaJurisdiccion()">🗺️ MAPA GRAL</button>
-                <button class="btn-nav" onclick="descargarPDF()">📄 DESCARGAR PDF</button>
-                <button class="btn-nav" onclick="imprimirMapa()">🖨️ IMPRIMIR MAPA</button>
-            </div>
+    <button type="button" class="btn-nav" onclick="abrirCam()">
+        <i class="fas fa-video"></i> cam 
+    </button>
+    <button type="button" class="btn-nav" onclick="verMapaJurisdiccion()">
+        <i class="fas fa-map-marked-alt"></i> mapa 
+    </button>
+    <button type="button" class="btn-nav" onclick="descargarPDF()">
+        <i class="fas fa-file-pdf"></i> pdf
+    </button>
+    <button type="button" class="btn-nav" onclick="imprimirMapa()">
+        <i class="fas fa-print"></i> imprimir
+    </button>
+</div>
         </div>
     </div>
 
@@ -529,7 +539,9 @@
         window.open(MAPA_JURISDICCION_URL, '_blank'); 
         document.getElementById('navButtons').classList.remove('active');
     }
+     
     
+
     function descargarPDF() { 
         window.open(PDF_URL, '_blank'); 
         document.getElementById('navButtons').classList.remove('active');
@@ -721,6 +733,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         centrarMapaInicial();
     };
+   function abrirCam() {
+    window.open("https://www.google.com/maps/d/edit?mid=1q9r_H9K5cqbAjxtSMDrWQD2DA_2oZns&usp=sharing", '_blank');
+    document.getElementById('navButtons').classList.remove('active');
+    }
 </script>
 
 </body>
