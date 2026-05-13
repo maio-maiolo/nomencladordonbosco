@@ -284,7 +284,7 @@ tr:hover { background: var(--gris-claro); cursor: pointer; }
     input#busqueda, input#altura, .btn-search { width: 100% !important; box-sizing: border-box; }
     .hamburger { display: block; }
     .footer { font-size: 9px; text-align: justify;}
-    #mensaje-resultado { font-size: 13px; text-align: left; }
+    #mensaje-resultado { font-size: 13px; teext-align: left; }
     .nav-buttons {
         display: none;
         flex-direction: column;
@@ -292,12 +292,20 @@ tr:hover { background: var(--gris-claro); cursor: pointer; }
         right: 0;
         top: 45px;
         background: var(--azul-oscuro);
-        padding: 10px;
+        padding: 3px;
         z-index: 1000;
-        width: 180px;
+        width: 110px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
     .nav-buttons.active { display: flex; }
-    .btn-nav { width: 100%; text-align: left; }
+    .btn-nav { 
+        width: 100%; 
+        text-align: left; 
+        padding: 6px 10px; /* Reducido de 8px 15px */
+        font-size: 12px;    /* Un punto más chico que el original */
+        margin-bottom: 1px; /* Espacio mínimo entre botones */
+    }
     th, td { padding: 8px 5px; font-size: 13px; }
 }
 .header-flex img {
