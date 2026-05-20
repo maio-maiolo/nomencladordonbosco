@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nomenclador Don Bosco</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="map.png" type="image/x-icon">
+    <link rel="shortcut icon" href="map.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="map.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2 id="titulo-reporte-print">REPORTE DE JURISDICCIÓN - COMISARÍA 8VA DON BOSCO</h2>
+
+    <div class="header-flex">
+       <div style="display: flex; align-items: center; gap: 15px;">
+        <img src="balanza.png" alt="Logo" style="height: 50px; width: auto; filter: brightness(0) invert(1);">
+        <div>
+            <h2 class="titulo-nomenclador">NOMENCLADOR JURISDICCIONAL</h2>
+            <small>COMISARIA NORTE 8VA - DON BOSCO</small>
+        </div>
+    </div>
+        <div class="nav-container">
+            <div class="theme-switch-wrapper" style="display: flex !important; align-items: center !important;">
+    <span class="mode-text">MODO OSCURO</span> 
+    <label class="theme-switch" for="checkbox">
+        <input type="checkbox" id="checkbox">
+        <div class="slider">
+            <span class="icon-sun">☀️</span>
+            <span class="icon-moon">🌙</span>
+        </div>
+    </label>
+</div>
+            
+            <button class="hamburger" id="btn-hamburger">☰</button>
+            <div class="nav-buttons" id="navButtons">
+                <button type="button" id="btn-cam" class="btn-nav">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                    </svg> CAM
+                </button>
+
+                <button type="button" id="btn-zonas" class="btn-nav">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/>
+                    </svg> ZONAS
+                </button>
+
+                <button type="button" id="btn-pdf" class="btn-nav">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                    </svg> PDF
+                </button>
+
+                <button type="button" id="btn-imprimir" class="btn-nav">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+                    </svg> IMPRIMIR
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <form class="search-box" id="form-busqueda">
+        <div class="search-input-wrapper" style="position: relative; flex: 1; min-width: 200px; display: flex;">
+            <input type="text" id="busqueda" placeholder="Ingrese el nombre de la calle..." autocomplete="off" style="width: 100%;">
+            <div id="sugerencias" class="sugerencias-dropdown"></div>
+        </div>
+        <input type="number" id="altura" placeholder="Altura">
+        <button type="submit" class="btn-search">BUSCAR AHORA</button>
+        <button type="button" id="btn-lista" class="btn-search" style="background:#6c757d;">LISTADO</button>
+    </form>
+
+    <div id="mensaje-resultado"></div>
+
+    <div id="tablaContenedor" class="tabla-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Calle / Observation</th>
+                    <th>Rango</th>
+                    <th>Zona</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpoTabla"></tbody>
+        </table>
+    </div>
+
+    <div class="map-container">
+        <iframe id="mapaFrame" src=""></iframe>
+    </div>
+
+    <div class="referencias-container">
+        <div class="referencias-titulo">📍 REFERENCIAS DE ZONAS</div>
+        <div class="zona-grid">
+            <div class="card-zona">
+                <h4>ZONA 8</h4>
+                <p>Av. Gral. Enrique Mosconi, Brandsen, Av. de Mayo, Humboldt, Pringles, Pepirí y Arriola.</p>
+            </div>
+            <div class="card-zona">
+                <h4>ZONA 9</h4>
+                <p>Virrey Cisneros, Arriola, Pepirí, Pringles, Humboldt y Gral. San Martín.</p>
+            </div>
+            <div class="card-zona">
+                <h4>ZONA 11</h4>
+                <p>Virrey Cisneros, Av. Gral. San Martín, Av. Gral. Enrique Mosconi y Arriola.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+               by <strong>MARIO N. MAIOLO - Todo los Derechos Reservados © 2026</strong>
+    </div>
+</div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+<script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=cdpm71jepdqzmzb6rae7yl8mla3a3fah&down=async" async></script>
+
+</body>
+</html>
